@@ -16,15 +16,15 @@ myPreProcess <- function(data) {
     data[ , "new_window"] <- as.numeric(as.factor(data[ , "new_window"]))
 
     #remove 'X', 'user_name', 'cvtd_timestamp'. These columns are not reasonable for this case
-    data <- subset(data, select=-c(X, user_name, cvtd_timestamp, raw_timestamp_part_1, raw_timestamp_part_2))
+    data <- subset(data, select=-c(X, user_name, cvtd_timestamp, raw_timestamp_part_1, raw_timestamp_part_2, num_window))
 
     #remove N/A in predictors, because the carvet train would error = =....
     data <- data[,colSums(is.na(data))==0]
     return(data)
 }
 
-#trainingData <- myPreProcess(read.csv("../data/pml-training.csv", header = TRUE, stringsAsFactors = FALSE))
-trainingData <- myPreProcess(read.csv("/Users/foremap/Sean/Coursera/ML/PracticalMachineLearning/data/pml-training.csv", header = TRUE, stringsAsFactors = FALSE))
+trainingData <- myPreProcess(read.csv("../data/pml-training.csv", header = TRUE, stringsAsFactors = FALSE))
+#trainingData <- myPreProcess(read.csv("/Users/foremap/Sean/Coursera/ML/PracticalMachineLearning/data/pml-training.csv", header = TRUE, stringsAsFactors = FALSE))
 
 # Factor 'classe' -> y 
 trainingData$classe <- as.factor(trainingData$classe)
@@ -41,10 +41,15 @@ fitControl <- trainControl(method = "repeatedcv", number = 5, repeats = 1)
 rfFit <- train(classe ~ ., data = training, method = "rf", trControl = fitControl)
 
 rfFit
+plot(varImp(rfFit, scale=FALSE), top=20)
 
 result <- predict(rfFit, newdata = testing)
 accuracy <- sum(result == testing$classe)/length(testing$classe)
 confusionMatrix(predictions,testing$classe)
 
-testData <- myPreProcess(read.csv("../data/pml-testing.csv", header = TRUE, stringsAsFactors=FALSE))
 
+testData <- myPreProcess(read.csv("../data/pml-testing.csv", header = TRUE, stringsAsFactors=FALSE))
+#testData <- myPreProcess(read.csv("/Users/foremap/Sean/Coursera/ML/PracticalMachineLearning/data/pml-testing.csv", header = TRUE, stringsAsFactors=FALSE))
+dim(testData)
+result <- predict(rfFit, newdata = testData)
+result
