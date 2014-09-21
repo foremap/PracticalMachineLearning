@@ -1,79 +1,159 @@
-<!DOCTYPE html>
-<html>
+<h1 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;">Practical Machine Learning Project</h1>
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Practicalmachinelearning : Practical Machine Learning Project">
+<h2 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;"><i style="box-sizing: border-box;">Sean_Chuang &nbsp;2014-09-22</i></h2>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+<p style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">&nbsp;</p>
 
-    <title>Practicalmachinelearning</title>
-  </head>
+<h1 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;">Data Variables Description</h1>
 
-  <body>
+<p style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">&nbsp; &nbsp; The data for this project come from this source:&nbsp;<a href="http://groupware.les.inf.puc-rio.br/har" style="box-sizing: border-box;" target="" title="Link: http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a><span style="box-sizing: border-box;">. The data variables contains&nbsp;159 predictors to predict&nbsp;<i style="box-sizing: border-box;">&quot;classe&quot;,</i>&nbsp;which&nbsp;is factored in&nbsp;</span>five levels.&nbsp;There are&nbsp;19622 records in&nbsp;training data and 20&nbsp;records&nbsp;in test data.&nbsp;However,&nbsp;many predictors&nbsp;have NA for almost all records in training data. Therefore, pre-processing plays an important role in this case.</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/foremap/PracticalMachineLearning">View on GitHub</a>
+<h1 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;">Data Pre-Processing</h1>
 
-          <h1 id="project_title">Practicalmachinelearning</h1>
-          <h2 id="project_tagline">Practical Machine Learning Project</h2>
+<p style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">&nbsp; &nbsp;&nbsp;<span style="box-sizing: border-box;">For this dataset, the output&nbsp;<i style="box-sizing: border-box;">y</i>&nbsp;is&nbsp;discrete and predictors consist of&nbsp;both&nbsp;continues&nbsp;and discrete&nbsp;variables. Therefore, the regression model would not be suitable in this case. For the simple and convenient reason, I decide to use tree based or random forest model. On one hand, we don&#39;t need to&nbsp;standardized&nbsp;the predictors; on the other hand, random forest is reliable and have&nbsp;high&nbsp;accuracy in many different case. So the only thing need to do is remove the N/A and do manually feature selection if&nbsp;necessary. The followings is the steps:</span></p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/foremap/PracticalMachineLearning/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/foremap/PracticalMachineLearning/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<ul style="box-sizing: border-box;">
+	<li style="box-sizing: border-box;"><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">Remove Predictors contains&nbsp;N/A fields&nbsp;</span></li>
+	<li style="box-sizing: border-box;"><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">Remove unrelated predictors(&#39;X&#39;, &#39;user_name&#39;, &#39;cvtd_timestamp&#39;</span><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">)&nbsp;</span></li>
+</ul>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<p><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">After that, the training data is clean and the dimension is&nbsp; &nbsp;&nbsp;</span></p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><code>dim(trainingData)<br />
+[1] 19622&nbsp;&nbsp;&nbsp; 57</code></div>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<blockquote>
+<p><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 14px; line-height: 21px;">When Loading the csv in R, the parameters &#39;</span></font>stringsAsFactors = FALSE&#39; <span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-style: italic; line-height: 21px;">is added, otherwise, some of string varaible would convert to&nbsp;factor even though the original data value is double or int.</span></p>
+</blockquote>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h1 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;">Data Partition and Model Fit&nbsp;</h1>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">&nbsp; &nbsp; Before using&nbsp;<strong><i style="box-sizing: border-box;">caret</i></strong>&nbsp;to train model, the training data are split into two parts; about&nbsp;60% of the data&nbsp;for training the model, and the other 40%&nbsp;for the final validation. In training model,&nbsp;<span style="box-sizing: border-box;">repeated cross-validation would be set and use random forest algorithm to train the model.&nbsp;</span></p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><code>inTraining &lt;- createDataPartition(trainingData$classe, p = 0.6, list = FALSE)<br />
+training &lt;- trainingData[inTraining, ]<br />
+testing &lt;- trainingData[-inTraining, ]</code></div>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>&nbsp;</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><code>fitControl &lt;- trainControl(method = &quot;repeatedcv&quot;, number = 5, repeats = 1)<br />
+​rfFit &lt;- train(classe ~ ., data = training, method = &quot;rf&quot;, trControl = fitControl)&nbsp; </code></div>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">After finish training, the model would be like as following :</span></p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<hr />
+<p><var><kbd>Random Forest </kbd></var></p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>&nbsp;</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+<p><var><kbd>11776 samples</kbd></var></p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Practicalmachinelearning maintained by <a href="https://github.com/foremap">foremap</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+<p><var><kbd>&nbsp;&nbsp; 56 predictor</kbd></var></p>
 
-    
+<p><var><kbd>&nbsp;&nbsp;&nbsp; 5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39; </kbd></var></p>
 
-  </body>
-</html>
+<p>&nbsp;</p>
+
+<p><var><kbd>No pre-processing</kbd></var></p>
+
+<p><var><kbd>Resampling: Cross-Validated (5 fold, repeated 1 times) </kbd></var></p>
+
+<p>&nbsp;</p>
+
+<p><var><kbd>Summary of sample sizes: 9422, 9420, 9422, 9420, 9420 </kbd></var></p>
+
+<p>&nbsp;</p>
+
+<p><var><kbd>Resampling results across tuning parameters:</kbd></var></p>
+
+<p>&nbsp;</p>
+
+<p><var><kbd>&nbsp; mtry&nbsp; Accuracy&nbsp; Kappa&nbsp; Accuracy SD&nbsp; Kappa SD</kbd></var></p>
+
+<p><var><kbd>&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0.995&nbsp;&nbsp;&nbsp;&nbsp; 0.994&nbsp; 0.000921&nbsp;&nbsp;&nbsp;&nbsp; 0.001166</kbd></var></p>
+
+<p><var><kbd>&nbsp; 29&nbsp;&nbsp;&nbsp; 0.998&nbsp;&nbsp;&nbsp;&nbsp; 0.998&nbsp; 0.001098&nbsp;&nbsp;&nbsp;&nbsp; 0.001389</kbd></var></p>
+
+<p><var><kbd>&nbsp; 56&nbsp;&nbsp;&nbsp; 0.997&nbsp;&nbsp;&nbsp;&nbsp; 0.997&nbsp; 0.000698&nbsp;&nbsp;&nbsp;&nbsp; 0.000883</kbd></var></p>
+
+<p>&nbsp;</p>
+
+<p><var><kbd>Accuracy was used to select the optimal model using&nbsp; the largest value.</kbd></var></p>
+
+<p><var><kbd>The final value used for the model was mtry = 29.</kbd></var></p>
+
+<hr />
+<p><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 14px; line-height: 21px;">The result looks too perfect and we need to worry about overfitting problem. So I check the important the variables(see the picture&nbsp;below)</span></font></p>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><code>plot(varImp(rfFit, scale=FALSE), top=20)</code></div>
+
+<p><img alt="" src="https://raw.githubusercontent.com/foremap/PracticalMachineLearning/master/photo/Rplot-with-timestamp.jpg" style="width: 500px; height: 455px;" /></p>
+
+<p><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif" style="line-height: 20.7999992370605px;"><span style="font-size: 14px; line-height: 21px;">We can find &#39;</span></font><span style="line-height: 20.7999992370605px;">raw_timestamp_part_1</span><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif" style="line-height: 20.7999992370605px;"><span style="font-size: 14px; line-height: 21px;">&#39; dominate the result. This doesn&#39;t make sense for me, so I remove&nbsp;</span></font><span style="line-height: 20.7999992370605px;">raw_timestamp_part_1 and&nbsp;raw_timestamp_part_2</span><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">. On the other hand, I also check the &#39;num_window&#39;, it is just a increasing value when data collecting. I also remove it. After rebuild the model, the new model and important predictors&nbsp;as followings :&nbsp;</span></p>
+
+<hr />
+<p><code>Random Forest&nbsp;</code></p>
+
+<p><code>11776 samples<br />
+&nbsp; &nbsp;53 predictor<br />
+&nbsp; &nbsp; 5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;&nbsp;</code></p>
+
+<p><code>No pre-processing<br />
+Resampling: Cross-Validated (5 fold, repeated 1 times)&nbsp;</code></p>
+
+<p><code>Summary of sample sizes: 9422, 9420, 9422, 9420, 9420&nbsp;</code></p>
+
+<p><code>Resampling results across tuning parameters:</code></p>
+
+<p><code>&nbsp; mtry &nbsp;Accuracy &nbsp;Kappa &nbsp;Accuracy SD &nbsp;Kappa SD<br />
+&nbsp; &nbsp;2 &nbsp; &nbsp;0.989 &nbsp; &nbsp; 0.986 &nbsp;0.00263 &nbsp; &nbsp; &nbsp;0.00333&nbsp;<br />
+&nbsp; 27 &nbsp; &nbsp;0.990 &nbsp; &nbsp; 0.988 &nbsp;0.00145 &nbsp; &nbsp; &nbsp;0.00183&nbsp;<br />
+&nbsp; 53 &nbsp; &nbsp;0.986 &nbsp; &nbsp; 0.982 &nbsp;0.00292 &nbsp; &nbsp; &nbsp;0.00369&nbsp;</code></p>
+
+<p><code>Accuracy was used to select the optimal model using &nbsp;the largest value.<br />
+The final value used for the model was mtry = 27.</code></p>
+
+<p><img alt="" src="https://raw.githubusercontent.com/foremap/PracticalMachineLearning/master/photo/Rplot-finalmodel.jpg" style="width: 500px; height: 500px;" /></p>
+
+<hr />
+<p><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 14px; line-height: 21px;">We applied the model on&nbsp;the </span></font><span style="font-family: monospace; line-height: 20.7999992370605px; background-color: rgb(238, 238, 238);">testing</span><font color="#555555" face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 14px; line-height: 21px;">&nbsp;, the other 40% data, to see the accuracy. If the performance is awful, we need to rebuild the model. The result is shown below.</span></font></p>
+
+<p><code>Confusion Matrix and Statistics</code></p>
+
+<p><code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Reference<br />
+Prediction &nbsp; &nbsp;A &nbsp; &nbsp;B &nbsp; &nbsp;C &nbsp; &nbsp;D &nbsp; &nbsp;E<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;A 2232 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;B &nbsp; &nbsp;0 1518 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;C &nbsp; &nbsp;0 &nbsp; &nbsp;0 1368 &nbsp; &nbsp;0 &nbsp; &nbsp;0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;D &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;0 1282 &nbsp; &nbsp;4<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;E &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;0 &nbsp; &nbsp;4 1438</code></p>
+
+<p><code>Overall Statistics<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Accuracy : 0.999 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;95% CI : (0.998, 0.9996)<br />
+&nbsp; &nbsp; No Information Rate : 0.2845 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
+&nbsp; &nbsp; P-Value [Acc &gt; NIR] : &lt; 2.2e-16 &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Kappa : 0.9987 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
+&nbsp;Mcnemar&#39;s Test P-Value : NA &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</code></p>
+
+<p><code>Statistics by Class:</code></p>
+
+<p><code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Class: A Class: B Class: C Class: D Class: E<br />
+Sensitivity &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0000 &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 0.9969 &nbsp; 0.9972<br />
+Specificity &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0000 &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 0.9994 &nbsp; 0.9994<br />
+Pos Pred Value &nbsp; &nbsp; &nbsp; &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 0.9969 &nbsp; 0.9972<br />
+Neg Pred Value &nbsp; &nbsp; &nbsp; &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 0.9994 &nbsp; 0.9994<br />
+Prevalence &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 0.2845 &nbsp; 0.1935 &nbsp; 0.1744 &nbsp; 0.1639 &nbsp; 0.1838<br />
+Detection Rate &nbsp; &nbsp; &nbsp; &nbsp; 0.2845 &nbsp; 0.1935 &nbsp; 0.1744 &nbsp; 0.1634 &nbsp; 0.1833<br />
+Detection Prevalence &nbsp; 0.2845 &nbsp; 0.1935 &nbsp; 0.1744 &nbsp; 0.1639 &nbsp; 0.1838<br />
+Balanced Accuracy &nbsp; &nbsp; &nbsp;1.0000 &nbsp; 1.0000 &nbsp; 1.0000 &nbsp; 0.9981 &nbsp; 0.9983</code></p>
+
+<p><span style="color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px;">So&nbsp;the final model accuracy is 0.999.&nbsp;</span></p>
+
+<h1 style="box-sizing: border-box; color: rgb(85, 85, 85); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 21px;">Test data Prediction</h1>
+
+<div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><code>result &lt;- predict(rfFit, newdata = testing)</code></div>
+
+<p><tt><span class="marker"><big>B A B A A E D B A A B C B A E E A B B B</big></span></tt></p>
